@@ -250,20 +250,19 @@ def cmd_adduser(message, znc_username):
         with open('zncusersdb.json', 'w') as f:
             json.dump(zncusersdb, f, indent=2)
 
-def cmd_deluser(message, znc_username, args):
+def cmd_deluser(message, znc_username):
     znc_username_string = ''.join(znc_username)
     try:
         if znc_username_string.lower() in zncuserlist["main"]:
             zncuserlist["main"].remove(znc_username_string.lower())
+            znc_username_real = zncusersdb["users"][znc_username_string.lower()]["real_username"]
+            sendraw("ZNC *controlpanel DelUser" + " " + str(znc_username_real) + "\n")
             zncusersdb["users"][znc_username_string.lower()]["state"] = "Deleted"
             sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['user'], str(znc_username_string.lower()), i18n['OK_deleted']))
             with open("zncuserlist.json", 'w') as n:
                 json.dump(zncuserlist, n, indent=2)
             with open('zncusersdb.json', 'w') as f:
                 json.dump(zncusersdb, f, indent=2)
-            if args == '-delznc':
-                znc_username_real = zncusersdb["users"][znc_username_string.lower()]["real_username"]
-                sendraw("ZNC *controlpanel DelUser" + " " + str(znc_username_real) + "\n")
         else:
             sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['error_user'], str(znc_username_string.lower()),i18n["either_deleted_or_404"]))
     except KeyError:
@@ -651,13 +650,8 @@ while True:
                 pass
             if len(cmd_args) < 2:
                 sendmsg(message['replyto'], message['nick'] +": Syntax: !deluser \x1fusername\x1f")
-                sendmsg(message['replyto'], message['nick'] +": (Add -delznc to the end to delete from the ZNC server)")
             else:
                 znc_username = cmd_args[1]
-                try:
-                    args = cmd_args[2]
-                except:
-                    args = "null"
                 command = cmd_deluser
 
         if 'userinfo' == command_word:
