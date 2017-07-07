@@ -401,8 +401,6 @@ def cmd_request(message, cmd_args):
         sendmsg(message['nick'], "{0} #SuchZNC {1}".format(i18n['join_channel_error'], i18n['to_use_request_command']))
     elif user_registered == '-':
         sendmsg(message['replyto'], message['nick'] +": {0} !request".format(i18n['identify_services_error']))
-    elif "suchznc.net" in message['host'] or "gateway/shell/suchznc/" in message['host']:
-        sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['error_already_have_account']))
     elif len(cmd_args) <= 0:
         sendmsg(message['replyto'], message['nick'] +": {0} \x1f{1}\x1f".format(i18n['request_syntax'], i18n['username']))
     elif message['userhost'] in requestthrottle: # This 'elif' is for backwards compatibility with older databases.
