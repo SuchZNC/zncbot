@@ -163,6 +163,27 @@ def sendmsg(chan, msg):
     logging.debug("sendmsg to {0} (' {1} ')".format(chan, msg))
     sendraw(irc_command("PRIVMSG", chan, msg))
 
+def cmd_timereset(message, znc_username):
+    znc_username_string = ''.join(znc_username)
+    try:
+        znc_username_real = zncusersdb["users"][znc_username_string.lower()]["real_username"]
+        if_user_match = znc_username_string.lower() == znc_username_real.lower()
+        znc_user_host = zncusersdb["users"][znc_username_string.lower()]["host_registered_as"]
+        if if_user_match:
+            requestthrottle[znc_user_host] = 0
+            sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['user'], str(znc_username_string), i18n['request_timer_reset']))
+            with open('requestthrottle.json', 'w') as o:
+                json.dump(requestthrottle, o, indent=2)
+    except KeyError:
+        try:
+            if requestthrottle[znc_username_string] > 0: # KeyError if host doesn't exist.
+                requestthrottle[znc_username_string] = 0
+                sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['host'], str(znc_username_string), i18n['request_timer_reset']))
+                with open('requestthrottle.json', 'w') as o:
+                    json.dump(requestthrottle, o, indent=2)
+        except KeyError:
+                sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['error_user_or_host'], str(znc_username_string), i18n['404']))
+
 def cmd_approve(message, znc_username):
     znc_username_string = ''.join(znc_username)
     try:
@@ -348,6 +369,7 @@ def zncrequest(message, cmd_args):
     zncusersdb["users"][nick_formatted2.lower()]["real_username"] = str(nick_formatted2)
     zncusersdb["users"][nick_formatted2.lower()]["nick_registered_as"] = str(message['nick'])
     zncusersdb["users"][nick_formatted2.lower()]["userhost_registered_as"] = str(message['userhost'])
+    zncusersdb["users"][nick_formatted2.lower()]["host_registered_as"] = str(message['host'])
     zncusersdb["users"][nick_formatted2.lower()]["date_registered"] = str(time.ctime(int(time.time())))
     zncusersdb["users"][nick_formatted2.lower()]["onlinecount"] = 0
     zncusersdb["users"][nick_formatted2.lower()]["isonline"] = False
@@ -647,6 +669,14 @@ while True:
         if 'restart' == command_word:
             access = acs_admin
             command = cmd_restart
+
+        if 'timereset' == command_word:
+            access = acs_admin
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fusername\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_timereset
 
         if 'userlang' == command_word:
             if len(cmd_args) < 2:

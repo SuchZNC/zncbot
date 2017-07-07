@@ -37,6 +37,6 @@
   "username": "usuario",
   "requestthrottle_error": "Error: Please wait 24-hours before requesting again.",
   "identify_services_error": "You need to identify to services in order to",
-  "manually_added_by": "Manually added by:"
+  "manually_added_by": "Manually added by:",
+  "error_user_or_host": "Error: User or host"
 }
-
