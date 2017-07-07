@@ -525,7 +525,7 @@ while True:
         sys.exit(0)
 
     elif message['args'][-1] == '\x01VERSION\x01':
-       sendraw("NOTICE {0} :\x01VERSION SuchZNC RegUtil IRC bot, running on Python {1}\x01\r\n".format(message['nick'], python_version()))
+       sendraw("NOTICE {0} :\x01VERSION SuchZNC ZNC Utility-ish IRC bot, running on Python {1}\x01\r\n".format(message['nick'], python_version()))
 
     elif message['args'][-1] == '\x01TIME\x01':
        sendraw("NOTICE {0} :\x01TIME {1}\x01\r\n".format(message['nick'], time.strftime("%c, %Z")))
