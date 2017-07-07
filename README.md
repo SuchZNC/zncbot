@@ -44,7 +44,7 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 <br>
 **zncpass** - The ZNC Bot's account password.
 <br>
-**language** - The default language the bot will speak in, on IRC. (Select "en" for English, LOOKING FOR TRANSLATORS FOR MORE LANGUAGES)
+**language** - The default language the bot will speak in, on IRC. (Enter "en" for English, LOOKING FOR TRANSLATORS FOR MORE LANGUAGES)
 <br>
 **webpanel** - Where the ZNC webpanel is located, so they will know when they request for an account.
 <br>
