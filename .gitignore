@@ -4,6 +4,5 @@ config.json
 requestthrottle.json
 zncuserlist.json
 zncusersdb.json
-userlist.json
 userlang.json
 *.config.json
