@@ -19,11 +19,13 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 <br>
 **!userinfo** - Lists the information about the ZNC user, usually information about registeration, including when did they register, what host did they use, etc.
 <br>
-**!deluser** - Deletes the ZNC user from the bot's database, and if -delznc is specified, it will also delete the ZNC user's account.
+**!deluser** - Deletes the ZNC user from the bot's database, as well from the ZNC server.
 <br>
 **!adduser** - Manually adds the ZNC username to the bot's database; Useful if you created an account on the ZNC server, and not through !request, and prevents from other users to request that username.
 <br>
 **!restart** - This will restart the bot. (Note: Sometimes, this *might* fail, for some reason, and requires you start the bot manually again.)
+<br>
+**!timereset** - If ZNC username is specified, it will reset the request timer using the last known host that was used by the user. If the host was specified instead, it will reset the request timer for the specified host.
 
 ## Configuration help
 **zncuser** - The username of the ZNC account for the bot to use.
@@ -57,6 +59,8 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 **zncircportisssl** - States if the port supports SSL connections, Put in "True" if so, "False" if not (Make sure you keep the quotes with it too.)
 <br>
 **use_identify-msg** - (Requires the IRC network to support it, and the bot to have send_raw module enabled) If set to "True" (Including the quotes), the bot will require users to be identified to services.
+
+**reqchan** - Specifies the channel the bot will be using to receive ZNC requests.
 
 ## Setup requirements
 * Make sure to create a "cloneuser" account, this account will be used for the bot to clone for each new user, that way, you can specify certain stuff for each new user, like a custom realname, or quit message, or whatever the case may be.
