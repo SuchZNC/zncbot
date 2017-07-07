@@ -283,7 +283,7 @@ def cmd_userinfo(message, znc_username):
         userhost_registered_as = zncusersdb["users"][str(cmd_args[1]).lower()]["userhost_registered_as"]
         sendmsg(message['nick'], "*{0} {1}*".format(i18n['info_user'], znc_username_string))
         if nick_registered_as == "N/A":
-            sendmsg(message['nick'], "Note: This user OK_manually_added")
+            sendmsg(message['nick'], "Note: This user {0}".format(i18n['OK_manually_added']))
         else:
             sendmsg(message['nick'], "{0} {1}".format(i18n['account_status'], user_state))
             sendmsg(message['nick'], "{0} {1}".format(i18n['nick_registered_as'], nick_registered_as))
@@ -674,7 +674,7 @@ while True:
         if 'timereset' == command_word:
             access = acs_admin
             if len(cmd_args) < 2:
-                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fZNC username or host\x1f")
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fZNC  username or host\x1f")
             else:
                 znc_username = cmd_args[1]
                 command = cmd_timereset
