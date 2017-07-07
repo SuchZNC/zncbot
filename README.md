@@ -8,9 +8,13 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 * The ability to delete ZNC accounts in the IRC channel (using the -delznc argument in !deluser)
 * Muti-language support, including the ability to set the specified language for each indiviual user (!userlang for indiviual language)
 
-## Requirements
-* Python 3.4 or newer
-* Admin access to a working ZNC server
+## Setup requirements
+* Python 3.4 (or newer)
+* Administrator access to a functional ZNC server
+* Make sure to create a "cloneuser" account, this account will be used for the bot to clone for each new user, that way, you can specify certain stuff for each new user, like a custom realname, or quit message, or whatever the case may be.
+* Make sure every ZNC user have "DenySetBindHost" enabled, otherwise approving would be useless.
+* Make sure the ZNC bot have Admin privileges on the ZNC server (Duh)
+* In order for the bot to even work...at all, it requires the controlpanel module to be enabled. This will be used to basically do everything it needs to do, like create new accounts, set bindhosts, etc.
 
 ## List of admin commands, and what they do
 **!approve** - Approves the specified ZNC username; This will set their bindhost to the proper bindhost in the config, and allow them to connect to their IRC networks.
@@ -19,11 +23,13 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 <br>
 **!userinfo** - Lists the information about the ZNC user, usually information about registeration, including when did they register, what host did they use, etc.
 <br>
-**!deluser** - Deletes the ZNC user from the bot's database, and if -delznc is specified, it will also delete the ZNC user's account.
+**!deluser** - Deletes the ZNC user from the bot's database, as well from the ZNC server.
 <br>
 **!adduser** - Manually adds the ZNC username to the bot's database; Useful if you created an account on the ZNC server, and not through !request, and prevents from other users to request that username.
 <br>
 **!restart** - This will restart the bot. (Note: Sometimes, this *might* fail, for some reason, and requires you start the bot manually again.)
+<br>
+**!timereset** - If ZNC username is specified, it will reset the request timer using the last known host that was used by the user. If the host was specified instead, it will reset the request timer for the specified host.
 
 ## Configuration help
 **zncuser** - The username of the ZNC account for the bot to use.
@@ -58,11 +64,7 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 <br>
 **use_identify-msg** - (Requires the IRC network to support it, and the bot to have send_raw module enabled) If set to "True" (Including the quotes), the bot will require users to be identified to services.
 
-## Setup requirements
-* Make sure to create a "cloneuser" account, this account will be used for the bot to clone for each new user, that way, you can specify certain stuff for each new user, like a custom realname, or quit message, or whatever the case may be.
-* Make sure every ZNC user have "DenySetBindHost" enabled, otherwise approving would be useless.
-* Make sure the ZNC bot have Admin privileges on the ZNC server (Duh)
-* In order for the bot to even work...at all, it requires the controlpanel module to be enabled. This will be used to basically do everything it needs to do, like create new accounts, set bindhosts, etc.
+**reqchan** - Specifies the channel the bot will be using to receive ZNC requests.
 
 ## Roadmap/To-do List (Always looking for contributors and help!)
 * Create a pending command, which would list accounts that are still "pending" or waiting for their account to be approved or denied.
