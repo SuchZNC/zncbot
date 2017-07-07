@@ -674,7 +674,7 @@ while True:
         if 'timereset' == command_word:
             access = acs_admin
             if len(cmd_args) < 2:
-                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fusername\x1f")
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fZNC username or host\x1f")
             else:
                 znc_username = cmd_args[1]
                 command = cmd_timereset
