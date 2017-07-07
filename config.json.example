@@ -14,5 +14,6 @@
     "zncstandard": "",
     "zncircport": "",
     "zncircportisssl": "",
-    "use_identify-msg": ""
+    "use_identify-msg": "",
+    "reqchan": ""
 }

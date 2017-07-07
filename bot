@@ -397,7 +397,7 @@ def cmd_request(message, cmd_args):
     except KeyError:
         pass
     if "#" not in message['replyto']:
-        sendmsg(message['nick'], "{0} #SuchZNC {1}".format(i18n['join_channel_error'], i18n['to_use_request_command']))
+        sendmsg(message['nick'], "{0} {1} {2}".format(i18n['join_channel_error'], config['reqchan'], i18n['to_use_request_command']))
     elif user_registered == '-':
         sendmsg(message['replyto'], message['nick'] +": {0} !request".format(i18n['identify_services_error']))
     elif len(cmd_args) <= 0:
