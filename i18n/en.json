@@ -40,5 +40,6 @@
   "manually_added_by": "Manually added by:",
   "error_user_or_host": "Error: User or host",
   "request_timer_reset": "request timer has been resetted!",
-  "host": "Host"
+  "host": "Host",
+  "global_requestthrottle_error": "Error: Please wait a minute after the previous request before requesting again."
 }

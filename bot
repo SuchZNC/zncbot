@@ -378,12 +378,25 @@ def zncrequest(message, cmd_args):
     requestthrottle[message['host']] = int(time.time())
     with open('requestthrottle.json', 'w') as o:
         json.dump(requestthrottle, o, indent=2)
+    cache['lastrequest'] = int(time.time())
+    with open('cache.json', 'w') as g:
+        json.dump(cache, g, indent=2)
     zncuserlist["main"].append(nick_formatted2.lower())
     with open("zncuserlist.json", 'w') as n:
         json.dump(zncuserlist, n, indent=2)
 
 def cmd_request(message, cmd_args):
-    print(cmd_args)
+    cache['already_alerted_bug'] = False
+    with open('cache.json', 'w') as g:
+        json.dump(cache, g, indent=2)
+    try:
+       if time.time() < cache['lastrequest'] + 60:
+           sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['global_requestthrottle_error']))
+           cache['already_alerted_bug'] = True
+           with open('cache.json', 'w') as g:
+               json.dump(cache, g, indent=2)
+    except KeyError:
+        pass
     if "#" not in message['replyto']:
         sendmsg(message['nick'], "{0} #SuchZNC {1}".format(i18n['join_channel_error'], i18n['to_use_request_command']))
     elif user_registered == '-':
@@ -395,16 +408,12 @@ def cmd_request(message, cmd_args):
     elif message['userhost'] in requestthrottle: # This 'elif' is for backwards compatibility with older databases.
         if time.time() < requestthrottle[message['userhost']] + 86400:
             sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['requestthrottle_error']))
-        elif time.time() < requestthrottle[message['userhost']] + 86400:
-            sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['requestthrottle_error']))
         else:
             zncrequest(message, cmd_args)
     elif message['host'] in requestthrottle:
-        if time.time() < requestthrottle[message['host']] + 86400:
+        if time.time() < requestthrottle[message['host']] + 86400 and not cache['already_alerted_bug']:
             sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['requestthrottle_error']))
-        elif time.time() < requestthrottle[message['host']] + 86400:
-            sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['requestthrottle_error']))
-        else:
+        elif time.time() > requestthrottle[message['host']] + 86400 and not cache['already_alerted_bug']:
             zncrequest(message, cmd_args)
     elif cmd_args[0].lower() in zncuserlist['main']:
         sendmsg(message['replyto'], message['nick'] +": Error: The username {0} is already taken!".format(cmd_args[0]))
