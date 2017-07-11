@@ -581,7 +581,10 @@ while True:
 
         if config['use_identify-msg'] == "True":
             user_registered = cmd_args[0][0]
-            used_char = cmd_args[0][1]
+            try:
+                used_char = cmd_args[0][1]
+            except IndexError:
+                pass
             command_word = cmd_args[0].lower()[2:]
         else:
             user_registered = "null"
