@@ -209,6 +209,7 @@ def cmd_approve(message, znc_username):
         sendmsg(message['replyto'], message['nick'] +": {0} {1} {2}".format(i18n['error_user'], str(znc_username_string.lower()), i18n['404']))
 
 
+
 def cmd_adduser(message, znc_username):
     znc_username_string = ''.join(znc_username)
     try:
@@ -364,7 +365,11 @@ def zncrequest(message, cmd_args):
     sendmsg(message['nick'], "{0}".format(i18n['note_account_require_approval']))
     sendmsg(message['nick'], "{0}".format(i18n["note_account_require_approval2"]))
     zncusersdb["users"][nick_formatted2.lower()] = {}
-    zncusersdb["users"][nick_formatted2.lower()]["state"] = "Pending"
+    if config['disableapproval'] == "True":
+        zncusersdb["users"][nick_formatted2.lower()]["state"] = "Approved"
+        sendraw("ZNC *controlpanel set bindhost {0} {1}\n".format(str(nick_formatted2), config['znchost']))
+    else:
+        zncusersdb["users"][nick_formatted2.lower()]["state"] = "Pending"
     zncusersdb["users"][nick_formatted2.lower()]["real_username"] = str(nick_formatted2)
     zncusersdb["users"][nick_formatted2.lower()]["nick_registered_as"] = str(message['nick'])
     zncusersdb["users"][nick_formatted2.lower()]["userhost_registered_as"] = str(message['userhost'])

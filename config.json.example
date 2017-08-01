@@ -15,5 +15,6 @@
     "zncircport": "",
     "zncircportisssl": "",
     "use_identify-msg": "",
-    "reqchan": ""
+    "reqchan": "",
+    "disableapproval": ""
 }
