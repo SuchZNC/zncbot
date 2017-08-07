@@ -9,7 +9,7 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 * Muti-language support, including the ability to set the specified language for each indiviual user (!userlang for indiviual language)
 
 ## Setup requirements
-* Python 3.4 (or newer)
+* Python 3.6 or newer (ANYTHING OLDER THAN PYTHON 3.6 WILL NOT WORK)
 * Administrator access to a functional ZNC server
 * Make sure to create a "cloneuser" account, this account will be used for the bot to clone for each new user, that way, you can specify certain stuff for each new user, like a custom realname, or quit message, or whatever the case may be.
 * Make sure every ZNC user have "DenySetBindHost" enabled, otherwise approving would be useless.
