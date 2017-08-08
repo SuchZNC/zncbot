@@ -66,6 +66,8 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 
 **reqchan** - Specifies the channel the bot will be using to receive ZNC requests.
 
+**disableapproval** - (NOT RECOMMENDED TO ENABLE, UNLESS YOU HAVE SOMETHING ELSE TO REPLACE THIS) Disables the requirement for an account to be approved. Set to "True" if you really need to disable it, but it's best to leave it to "False".
+
 ## Roadmap/To-do List (Always looking for contributors and help!)
 * Create a pending command, which would list accounts that are still "pending" or waiting for their account to be approved or denied.
 * A better online/offline tracker, this is useful to check if a user is online or connected to their account, in !userinfo.
