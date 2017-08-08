@@ -5,7 +5,7 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 * The ability to request for a ZNC account (!request)
 * The ability to approve or deny new ZNC account requests (!approve or !deny)
 * A complete, email-less, system. Instead of requiring a provided email to signup, the system works by setting new users' bindhost to 8.8.8.8, to prevent them connecting, until an admin approves.
-* The ability to delete ZNC accounts in the IRC channel (using the -delznc argument in !deluser)
+* The ability to delete ZNC accounts in the IRC channel.
 * Muti-language support, including the ability to set the specified language for each indiviual user (!userlang for indiviual language)
 
 ## Setup requirements
