@@ -68,6 +68,10 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 
 **disableapproval** - (NOT RECOMMENDED TO ENABLE, UNLESS YOU HAVE SOMETHING ELSE TO REPLACE THIS) Disables the requirement for an account to be approved. Set to "True" if you really need to disable it, but it's best to leave it to "False".
 
+**znchostmasks** - A list of hostmasks that your ZNC service will use on IRC. Prevents ZNC users from re-requesting another account. Use * for wildcards.
+
+**linktotos** - A link to your ToS, this gets shown to those who requests an account. If you don't have one, then leave blank.
+
 ## Roadmap/To-do List (Always looking for contributors and help!)
 * Create a pending command, which would list accounts that are still "pending" or waiting for their account to be approved or denied.
 * A better online/offline tracker, this is useful to check if a user is online or connected to their account, in !userinfo.
