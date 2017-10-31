@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # SuchZNC Bot
 # Copyright (C) 2017 Nathaniel Olsen
@@ -142,8 +142,14 @@ def ping(arg):
 def acs_normal(message):
     return True
 
+def wildcards_to_regex(s):
+    return re.sub(r'\\\*', '.*', re.sub(r'\\\?', '.', re.escape(s)))
+
+def wildcard_match(pattern, s):
+    return bool(re.fullmatch(wildcards_to_regex(pattern), s))
+
 def acs_admin(message):
-    return (message['userhost'] in config['admins'])
+    return any(wildcard_match(admin, message['userhost']) for admin in config['admins'])
 
 def acs_zncuser(message):
     return (message['host'] in "suchznc.net")
@@ -605,85 +611,81 @@ while True:
             access = acs_normal
             command = cmd_request
 
-            if command_word == 'approve':
-                access = acs_admin
-                with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
-                    i18n = json.load(fd)
-                    if len(cmd_args) < 2:
-                        sendmsg(message['replyto'], message['nick'] +": Syntax: !approve \x1fusername\x1f")
-                    else:
-                        znc_username = cmd_args[1]
-                        command = cmd_approve
-
-            if command_word == 'deny':
-                access = acs_admin
-                with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
-                    i18n = json.load(fd)
+        if command_word == 'approve':
+            access = acs_admin
+            with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
+                i18n = json.load(fd)
                 if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !deny \x1fusername\x1f")
+                    sendmsg(message['replyto'], message['nick'] +": Syntax: !approve \x1fusername\x1f")
                 else:
                     znc_username = cmd_args[1]
-                    command = cmd_deny
+                    command = cmd_approve
 
-            if command_word == 'adduser':
-                access = acs_admin
-                with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
-                    i18n = json.load(fd)
-                if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !adduser \x1fusername\x1f")
-                else:
-                    znc_username = cmd_args[1]
-                    command = cmd_adduser
+        if command_word == 'deny':
+            access = acs_admin
+            with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
+                i18n = json.load(fd)
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !deny \x1fusername\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_deny
 
-            if command_word == 'deluser':
-                access = acs_admin
-                with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
-                    i18n = json.load(fd)
-                if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !deluser \x1fusername\x1f")
-                else:
-                    znc_username = cmd_args[1]
-                    command = cmd_deluse
+        if command_word == 'adduser':
+            access = acs_admin
+            with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
+                i18n = json.load(fd)
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !adduser \x1fusername\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_adduser
 
-            if command_word == 'userinfo':
-                access = acs_admin
-                with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
-                    i18n = json.load(fd)
-                if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !userinfo \x1fusername\x1f")
-                else:
-                    znc_username = cmd_args[1]
-                    command = cmd_userinfo
+        if command_word == 'deluser':
+            access = acs_admin
+            with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
+                i18n = json.load(fd)
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !deluser \x1fusername\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_deluse
 
-            if command_word == 'restart':
-                access = acs_admin
-                command = cmd_restart
+        if command_word == 'userinfo':
+            access = acs_admin
+            with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
+                i18n = json.load(fd)
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !userinfo \x1fusername\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_userinfo
 
-            if command_word == 'timereset':
-                access = acs_admin
-                if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fZNC  username or host\x1f")
-                else:
-                    znc_username = cmd_args[1]
-                    command = cmd_timereset
+        if command_word == 'restart':
+            access = acs_admin
+            command = cmd_restart
 
-            if command_word == 'userlang':
-                if len(cmd_args) < 2:
-                    sendmsg(message['replyto'], message['nick'] +": Syntax: !userlang \x1flanguage\x1f")
-                else:
-                    userlang[message['userhost']] = str(cmd_args[1])
-                    with open('userlang.json', 'w') as p:
-                        json.dump(userlang, p, indent=2)
+        if command_word == 'timereset':
+            access = acs_admin
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !timereset \x1fZNC  username or host\x1f")
+            else:
+                znc_username = cmd_args[1]
+                command = cmd_timereset
 
-            if not command is None:
-                if access(message):
-                    try:
-                        command(message, cmd_args[1], args)
-                    except TypeError:
-                        command(message, cmd_args[1:])
-                    except NameError:
-                        command(message, cmd_args[1:])
-                    except IndexError:
-                        command(message, cmd_args[1:])
-                else:
-                    sendmsg(message['replyto'], message['nick'] +": Permission Denied")
+        if command_word == 'userlang':
+            if len(cmd_args) < 2:
+                sendmsg(message['replyto'], message['nick'] +": Syntax: !userlang \x1flanguage\x1f")
+            else:
+                userlang[message['userhost']] = str(cmd_args[1])
+                with open('userlang.json', 'w') as p:
+                    json.dump(userlang, p, indent=2)
+
+        if not command is None:
+            if access(message):
+                try:
+                    command(message, cmd_args[1], args)
+                except:
+                    command(message, cmd_args[1:])
+            else:
+                sendmsg(message['replyto'], message['nick'] +": Permission Denied")
