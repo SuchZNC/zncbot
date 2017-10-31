@@ -17,5 +17,6 @@
     "use_identify-msg": "",
     "reqchan": "",
     "disableapproval": "False",
-    "znchostmasks": [""]
+    "znchostmasks": [""],
+    "linktotos": ""
 }

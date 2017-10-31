@@ -364,8 +364,11 @@ def zncrequest(message, cmd_args):
             sendmsg(message['nick'], "IRC: {0}, port {1} (SSL isn't supported)".format(config['zncircserver'], config['zncircport']))
     if len(config['torhs']) >= 2:
         sendmsg(message['nick'], "({0}, {1})".format(i18n['announce_hs'], config['torhs']))
-    sendmsg(message['nick'], "{0}".format(i18n['note_account_require_approval']))
-    sendmsg(message['nick'], "{0}".format(i18n["note_account_require_approval2"]))
+    if config['disableapproval'] == "False":
+        sendmsg(message['nick'], "{0}".format(i18n['note_account_require_approval']))
+        sendmsg(message['nick'], "{0}".format(i18n["note_account_require_approval2"]))
+    if len(config['linktotos']) > 1:
+        sendmsg(message['nick'], "{0} {1}".format(i18n['info_about_tos'], config['linktotos']))
     zncusersdb["users"][nick_formatted2.lower()] = {}
     if config['disableapproval'] == "True":
         zncusersdb["users"][nick_formatted2.lower()]["state"] = "Approved"
@@ -408,7 +411,7 @@ def cmd_request(message, cmd_args):
     elif user_registered == '-':
         sendmsg(message['replyto'], message['nick'] +": {0} !request".format(i18n['identify_services_error']))
     elif len(cmd_args) <= 0:
-        sendmsg(message['replyto'], message['nick'] +": {0} \x1f{1}\x1f".format(i18n['request_syntax'], i18n['username']))
+        sendmsg(message['replyto'], message['nick'] +": {0} \x1f{1}\x1f".format(i18n['request_syntax'], i18n['username_without_comma']))
     elif message['userhost'] in requestthrottle: # This 'elif' is for backwards compatibility with older databases.
         if time.time() < requestthrottle[message['userhost']] + 86400:
             sendmsg(message['replyto'], message['nick'] +": {0}".format(i18n['requestthrottle_error']))

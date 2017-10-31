@@ -34,11 +34,12 @@
   "to_use_request_command": "usar !request.",
   "error_already_have_account": "Error: ¡Ya tienes una cuenta!",
   "request_syntax": "Sintaxis: !request",
-  "username": "usuario",
+  "username_without_comma": "usuario",
   "requestthrottle_error": "Error: Please wait 24-hours before requesting again.",
   "identify_services_error": "You need to identify to services in order to",
   "manually_added_by": "Manually added by:",
   "error_user_or_host": "Error: User or host",
   "host": "Host",
-  "global_requestthrottle_error": "Error: Please wait a minute after the previous request before requesting again."
+  "global_requestthrottle_error": "Error: Please wait a minute after the previous request before requesting again.",
+  "info_about_tos": "You can find our ToS at"
 }
