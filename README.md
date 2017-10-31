@@ -63,13 +63,13 @@ A ZNC bot capable of handling registeration requests of new ZNC accounts, and mo
 **zncircportisssl** - States if the port supports SSL connections, Put in "True" if so, "False" if not (Make sure you keep the quotes with it too.)
 <br>
 **use_identify-msg** - (Requires the IRC network to support it, and the bot to have send_raw module enabled) If set to "True" (Including the quotes), the bot will require users to be identified to services.
-
+<br>
 **reqchan** - Specifies the channel the bot will be using to receive ZNC requests.
-
+<br>
 **disableapproval** - (NOT RECOMMENDED TO ENABLE, UNLESS YOU HAVE SOMETHING ELSE TO REPLACE THIS) Disables the requirement for an account to be approved. Set to "True" if you really need to disable it, but it's best to leave it to "False".
-
+<br>
 **znchostmasks** - A list of hostmasks that your ZNC service will use on IRC. Prevents ZNC users from re-requesting another account. Use * for wildcards.
-
+<br>
 **linktotos** - A link to your ToS, this gets shown to those who requests an account. If you don't have one, then leave blank.
 
 ## Roadmap/To-do List (Always looking for contributors and help!)
