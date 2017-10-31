@@ -628,6 +628,7 @@ while True:
             access = acs_admin
             with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
                 i18n = json.load(fd)
+
             if len(cmd_args) < 2:
                 sendmsg(message['replyto'], message['nick'] +": Syntax: !deny \x1fusername\x1f")
             else:
