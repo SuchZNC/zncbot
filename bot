@@ -649,7 +649,7 @@ while True:
                 sendmsg(message['replyto'], message['nick'] +": Syntax: !deluser \x1fusername\x1f")
             else:
                 znc_username = cmd_args[1]
-                command = cmd_deluse
+                command = cmd_deluser
 
         if command_word == 'userinfo':
             access = acs_admin
