@@ -151,9 +151,6 @@ def wildcard_match(pattern, s):
 def acs_admin(message):
     return any(wildcard_match(admin, message['userhost']) for admin in config['admins'])
 
-def acs_zncuser(message):
-    return (message['host'] in "suchznc.net")
-
 def cmd_restart(message, _):
     sendmsg(message['replyto'], "Restarting...")
     cache["channel"] = str(message['replyto'])
@@ -608,8 +605,11 @@ while True:
         if command_word == 'request':
             with open(os.path.join('i18n', f"{userlang.get(message['userhost'], config['language'])}.json")) as fd:
                 i18n = json.load(fd)
-            access = acs_normal
-            command = cmd_request
+            if any(wildcard_match(admin, message['host']) for admin in config['znchostmasks']):
+                sendmsg(message['replyto'], message['nick'] +": Error: You already have a ZNC account!")
+            else:
+                access = acs_normal
+                command = cmd_request
 
         if command_word == 'approve':
             access = acs_admin
