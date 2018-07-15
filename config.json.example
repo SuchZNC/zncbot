@@ -1,0 +1,22 @@
+{
+    "zncuser": "",
+    "server": "",
+    "port": "",
+    "admins": [""],
+    "network": "",
+    "zncpass": "",
+    "language": "",
+    "webpanel": "",
+    "znchost": "",
+    "torhs": "",
+    "zncircserver": "",
+    "zncssl": "",
+    "zncstandard": "",
+    "zncircport": "",
+    "zncircportisssl": "",
+    "use_identify-msg": "",
+    "reqchan": "",
+    "disableapproval": "False",
+    "znchostmasks": [""],
+    "linktotos": ""
+}
